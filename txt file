@@ -34,3 +34,5 @@ def main():
   f.write("%d utilisateurs ont répondu à des questions\r" % utilisateursquestions)
   f.write("%d utilisateurs ont utiliser la recharge sans-fil\r" % utilisateurrecharge)
   f.write("Les utilisateurs ont répondu à en moyenne %d questions\r" % nbquestions/nbutilisateurs)
+
+  f.close()
