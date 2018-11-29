@@ -31,6 +31,6 @@ def main():
   
   f.write("%d utilisateurs se sont assis aujourd'hui\r\n" % nbutilisateurs)
   f.write("La durée moyenne d'un utilisateur est de %d \r" % temps/nbutilisateurs)
-  f.write("%d utilisateurs ont répondu à des questions" % utilisateursquestions)
-  f.write("%d utilisateurs ont utiliser la recharge sans-fil" % utilisateurrecharge)
-  f.write("Les utilisateurs ont répondu à en moyenne %d questions" % nbquestions/nbutilisateurs)
+  f.write("%d utilisateurs ont répondu à des questions\r" % utilisateursquestions)
+  f.write("%d utilisateurs ont utiliser la recharge sans-fil\r" % utilisateurrecharge)
+  f.write("Les utilisateurs ont répondu à en moyenne %d questions\r" % nbquestions/nbutilisateurs)
