@@ -1,0 +1,36 @@
+def main():
+  #Écrire les stats d'une personne
+  #premiere personne
+  #if personneassise == 0 and stats.txt existe pas
+  
+  f=open("stats_utilisateur.txt", w+)
+  
+  f.write("Utilisateur 1\r\n")
+  
+  #tous les autres personnes
+  #elsif personneassise == 0 and stats.txt existe
+  
+  f=open("stats_utilisateur.txt", a+)
+  
+  f.write("\nUtilisateur %d\r\n" % nbutilisateurs-1)
+  
+  f.write("La personne est rester assise : %d \r" % temps)
+  f.write("La personne à répondu à %d questions\r" % nbquestions)
+  
+  if recharge == 1
+    f.write("La personne à utiliser la recherge sans-fil\r")
+  else
+    f.write("La personne n'a pas utiliser la recharge sans-fil\r")
+  
+  f.close()
+  
+  #Écrire les stats finale à la fin de la journée
+  #if time = 00:00
+  
+  f.open("stats_journée.txt", w+)
+  
+  f.write("%d utilisateurs se sont assis aujourd'hui\r\n" % nbutilisateurs)
+  f.write("La durée moyenne d'un utilisateur est de %d \r" % temps/nbutilisateurs)
+  f.write("%d utilisateurs ont répondu à des questions" % utilisateursquestions)
+  f.write("%d utilisateurs ont utiliser la recharge sans-fil" % utilisateurrecharge)
+  f.write("Les utilisateurs ont répondu à en moyenne %d questions" % nbquestions/nbutilisateurs)
