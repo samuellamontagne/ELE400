@@ -117,6 +117,12 @@ def question1(event):
     canvas_droit.delete("all")
     question1 = canvas_gauche.create_text(screen_width/6, 2*screen_height/6, text='Dans quelle tranche \nd\'âge vous situez-vous?', fill='black', font=my_font)
     reponse_question = canvas_droit.create_text(1*screen_width/6, 2*screen_height/6, text='1. 18 ans et moins\n2. 19 à 27 ans\n3. 28 à 36 ans\n4. 37 à 45 ans\n5. 46 à 63 ans\n6. 63 ans et plus', fill='black', font=my_font)
+    
+    #https://pypi.org/project/pynput/ maybe ?
+    #https://www.tutorialspoint.com/python/tk_entry.htm maybe ? with tkinter
+    #maybe on enleve les binds et on appel la q2 direct après. (stdin.readline() ou input())
+    #import msvcrt et msvcrt.getch() ?
+    
     window.bind("<KP_1>", question2)
     window.bind("<KP_2>", question2)
     window.bind("<KP_3>", question2)
