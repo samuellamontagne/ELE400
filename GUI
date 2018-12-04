@@ -1,8 +1,9 @@
-rom tkinter import *
+from tkinter import *
 from tkinter import font
 import PIL
+import time
 from PIL import Image
-
+import tty, sys, termios
 
 #-----------------------------------------INTERFACE_GRAPHIQUE----------------------------------------------------------------------------------
   
@@ -11,10 +12,10 @@ window = Tk()
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
-canvas_color = '#7993a5'
-background_color = '#1e2366'
+canvas_color = 'ghost white'#7993a5
+background_color = 'dark khaki'#1e2366
 
-my_font = font.Font(window, ("Garamond", 36, "bold"))
+my_font = font.Font(window, ("Garamond", 20, "bold"))
 
 window.attributes('-fullscreen', True)
 window['bg'] = background_color
@@ -38,6 +39,7 @@ metro.save('resized_metro.png')
 centreville.save('resized_centreville.png')
 metro2 = PhotoImage(file="resized_metro.png")
 centreville2 = PhotoImage(file="resized_centreville.png")
+x = chr(20)
 
 #------------------------------------------FONCTIONS--------------------------------------------------------------------------------------------
 
@@ -118,29 +120,29 @@ def question1(event):
     question1 = canvas_gauche.create_text(screen_width/6, 2*screen_height/6, text='Dans quelle tranche \nd\'âge vous situez-vous?', fill='black', font=my_font)
     reponse_question = canvas_droit.create_text(1*screen_width/6, 2*screen_height/6, text='1. 18 ans et moins\n2. 19 à 27 ans\n3. 28 à 36 ans\n4. 37 à 45 ans\n5. 46 à 63 ans\n6. 63 ans et plus', fill='black', font=my_font)
     
-    #https://pypi.org/project/pynput/ maybe ?
-    #https://www.tutorialspoint.com/python/tk_entry.htm maybe ? with tkinter
-    #maybe on enleve les binds et on appel la q2 direct après. (stdin.readline() ou input())
-    #import msvcrt et msvcrt.getch() ?
+    window.unbind("<KP_1>")
+    window.unbind("<KP_2>")
+    window.unbind("<KP_3>")
+    window.bind("<Key>", inter)
     
-    window.bind("<KP_1>", question2)
-    window.bind("<KP_2>", question2)
-    window.bind("<KP_3>", question2)
-    window.bind("<KP_4>", question2)
-    window.bind("<KP_5>", question2)
-    window.bind("<KP_6>", question2)
     canvas_gauche.pack()
     canvas_droit.pack()
 
+def inter(event):
+    global x
+    x = repr(event.char)
 
+    if x=="'1'" or x=="'2'" or x=="'3'" or x=="'4'" or x=="'5'" or x=="'6'":
+        question2()
+        
 def question2():
-    pi=2
-
+    print('you made it')
+    print(x)
 
 def opt_vis(event):
     canvas_gauche.delete("all")
     canvas_droit.delete("all")
-    canvas_haut.delete("all")    
+    canvas_haut.delete("all")   
     option_visible()
     
 #------------------------------------------KEY_BINDS----------------------------------------------------------------------------------
