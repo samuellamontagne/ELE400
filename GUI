@@ -3,7 +3,8 @@ from tkinter import font
 import PIL
 import time
 from PIL import Image
-import tty, sys, termios
+import os.path
+
 
 #-----------------------------------------INTERFACE_GRAPHIQUE----------------------------------------------------------------------------------
   
@@ -13,7 +14,7 @@ screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
 canvas_color = 'ghost white'#7993a5
-background_color = 'dark khaki'#1e2366
+background_color = 'cadet blue'#1e2366
 
 my_font = font.Font(window, ("Garamond", 20, "bold"))
 
@@ -31,15 +32,21 @@ canvas_droit.pack(side=LEFT)
 
 #-----------------------------------------GESTION_IMAGE---------------------------------------------------------------------------------------
 
-metro=Image.open('Metro.png')
-centreville=Image.open('Centreville.png')
-metro=metro.resize((int(screen_width/3), int(2*screen_height/3)), PIL.Image.ANTIALIAS)
-centreville=centreville.resize((int(screen_width/3), int(2*screen_height/3)), PIL.Image.ANTIALIAS)
+metro = Image.open('Metro.png')
+centreville = Image.open('Centreville.png')
+QRcode = Image.open('QRcode.png')
+
+metro = metro.resize((int(screen_width/3), int(2*screen_height/3)), PIL.Image.ANTIALIAS)
+centreville = centreville.resize((int(screen_width/3), int(2*screen_height/3)), PIL.Image.ANTIALIAS)
+QRcode = QRcode.resize((int(screen_height/4), int(screen_height/4)), PIL.Image.ANTIALIAS)
+
 metro.save('resized_metro.png')
 centreville.save('resized_centreville.png')
+QRcode.save('resized_QRcode.png')
+
 metro2 = PhotoImage(file="resized_metro.png")
 centreville2 = PhotoImage(file="resized_centreville.png")
-x = chr(20)
+QRcode2 = PhotoImage(file="resized_QRcode.png")
 
 #------------------------------------------FONCTIONS--------------------------------------------------------------------------------------------
 
@@ -123,27 +130,106 @@ def question1(event):
     window.unbind("<KP_1>")
     window.unbind("<KP_2>")
     window.unbind("<KP_3>")
-    window.bind("<Key>", inter)
+    window.bind("<Key>", get_input_1)
     
     canvas_gauche.pack()
     canvas_droit.pack()
 
-def inter(event):
-    global x
-    x = repr(event.char)
 
-    if x=="'1'" or x=="'2'" or x=="'3'" or x=="'4'" or x=="'5'" or x=="'6'":
+def get_input_1(event):
+    global age
+    age = repr(event.char)
+
+    if age=="'1'" or age=="'2'" or age=="'3'" or age=="'4'" or age=="'5'" or age=="'6'":
         question2()
-        
+
 def question2():
+    canvas_gauche.delete("all")
+    canvas_droit.delete("all")
+    question1 = canvas_gauche.create_text(screen_width/6, 2*screen_height/6, text='Etes vous :', fill='black', font=my_font)
+    reponse_question = canvas_droit.create_text(1*screen_width/6, 2*screen_height/6, text='1. Un homme\n2. Une femme\n3. Autre\n4. Préfère ne pas répondre', fill='black', font=my_font)
+
+    window.bind("<Key>", get_input_2)
+    
+    canvas_gauche.pack()
+    canvas_droit.pack()
+
+
+def get_input_2(event):
+    global gender
+    gender = repr(event.char)
+
+    if gender=="'1'" or gender=="'2'" or gender=="'3'" or gender=="'4'":
+        question3()
+
+
+def question3():
+    canvas_gauche.delete("all")
+    canvas_droit.delete("all")
+    question1 = canvas_gauche.create_text(screen_width/6, 2*screen_height/6, text='Etes-vous en groupe?', fill='black', font=my_font)
+    reponse_question = canvas_droit.create_text(1*screen_width/6, 2*screen_height/6, text='1. Non, je suis seul\n2. Groupe de 2\n3. Groupe de 3\n4. Groupe de plus de 3', fill='black', font=my_font)
+
+    window.bind("<Key>", get_input_3)
+    
+    canvas_gauche.pack()
+    canvas_droit.pack()
+
+
+def get_input_3(event):
+    global groupe
+    groupe = repr(event.char)
+
+    if groupe=="'1'" or groupe=="'2'" or groupe=="'3'" or groupe=="'4'":
+        reward()
+
+        
+def reward():
+    canvas_gauche.delete("all")
+    canvas_droit.delete("all")
+    canvas_haut.delete("all")
+    
     print('you made it')
-    print(x)
+    print(age)
+    print(gender)
+    print(groupe)
+    
+    canvas_haut.create_text(screen_width/2, screen_height/12, text='Promotion', fill='black', font=my_font)    
+    canvas_gauche.create_text(screen_width/6, 2*screen_height/6, text='Réclamez votre rabais \nà l\'aide de ce code QR', fill='black', font=my_font)
+    canvas_droit.create_image(screen_width/6, 2*screen_height/6, anchor=CENTER, image=QRcode2)
+    canvas_droit.pack()
+    fichiertxt()
+    
 
 def opt_vis(event):
     canvas_gauche.delete("all")
     canvas_droit.delete("all")
     canvas_haut.delete("all")   
     option_visible()
+
+
+def fichiertxt():
+    #Écrire les stats de la première personne
+    #if(not(os.path.exists('stats_utilisateurs.txt'))):
+    f = open("stats_utilisateurs.txt", "w+")
+
+    f.write("Utilisateur_1\r\n")
+    f.write("age : %s\n"  % age)
+    f.write("sexe : %s\n" % gender)
+    f.write("Nombre de personnes : %s\n" % groupe)
+    #f.write("Temps assis en secondes %d\n" % duree)
+    f.close()
+    print(not(os.path.exists('stats_utilisateurs.txt')))
+
+   # else
+     #   f = open("media/pi/stats_utilisateurs.txt", a+)
+
+      #  f.write("Utilisateur_%d\r\n", % nb_utilisateurs-1)
+       # f.write("age : %s\n" % age)
+       # f.write("sexe : %s\n" % gender)
+      #  f.write("Nombre de personnes : %s\n" % groupe)
+       # f.write("Temps assis en secondes %d\n" % duree)
+        
+    
     
 #------------------------------------------KEY_BINDS----------------------------------------------------------------------------------
 
