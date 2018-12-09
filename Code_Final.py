@@ -113,8 +113,8 @@ def get_data():
                 ecran_acceuil()
                 time.sleep(1)
             
-            if (x == 1):
-                if (keep == 0):# si queiqu'un est en train de se lever
+            if (x == 0):
+                if (keep == 1):# si queiqu'un est en train de se lever
                     z=0
                     util = util+1 # nombre d'utilisateur + 1
                     fichiertxt() # on update3 le fichier texte
