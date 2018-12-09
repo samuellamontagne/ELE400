@@ -27,9 +27,13 @@ def get_data():
     global age
     global gender
     global groupe
+    #On défini les variables age, gender et groupe a 'UNDEF' au cas ou l'utilisateur décide de ne pas répondre au questions
     age = 'UNDEF'
     gender = 'UNDEF'
     groupe = 'UNDEF'
+    
+    global duree
+    duree = 0
     
     global z #On s'assure que le code ne se repete pas à l'infini
     global y #On fais rouler le code 1 fois pour afficher le GUI
@@ -101,19 +105,20 @@ def get_data():
             hx.power_up()
             
             
-            if (x == 1 and z == 0 and y == 1):
+            if (x == 1 and z == 0 and y == 1): # si quelqu'un est assis et nous avons parcouru le code au complet une fois
                 salutation_visible()
                 z=1
 
-            elif(x == 0 and y == 1):
+            elif(x == 0 and y == 1):# si personne n'est assis et que le code est parcouru une fois au complet
                 ecran_acceuil()
                 time.sleep(1)
             
             if (x == 1):
-                if (keep == 0):
+                if (keep == 0):# si queiqu'un est en train de se lever
                     z=0
-                    util = util+1
-                    fichiertxt()
+                    util = util+1 # nombre d'utilisateur + 1
+                    fichiertxt() # on update3 le fichier texte
+                    #on redéfini les variables a 'UNDEF' au cas ou la personne ne répond pas à tout les questions
                     age = 'UNDEF'
                     gender = 'UNDEF'
                     groupe = 'UNDEF'
@@ -133,7 +138,7 @@ def get_timex():
         duree = int(now - timex)
         print('Temps assis en secondes: ', duree)
         #print(duree)
-        
+'''        
 def get_timex2():
     
     global timex2
@@ -146,7 +151,7 @@ def get_timex2():
         duree2 = int(now - timex2)
         print('Temps de recharge en secondes: ', duree2)
         #print(duree)
-    
+    '''
 
 
 t = Thread(target=get_data)
@@ -154,10 +159,7 @@ t.daemon = True # quit the thread when the program (main thread) quits
 t.start() # start the background thread
 
 while True: # yep, another infinite loop!! Each thread can have it's own!
-    #your normal code
     try:        
-        #time.sleep(2)
-        #print(x)
 
 
         #-----------------------------------------INTERFACE_GRAPHIQUE----------------------------------------------------------------------------------
@@ -414,7 +416,7 @@ while True: # yep, another infinite loop!! Each thread can have it's own!
             f.write("age : %s\n"  % age)
             f.write("sexe : %s\n" % gender)
             f.write("Nombre de personnes : %s\n" % groupe)
-            #f.write("Temps assis en secondes %d\n" % duree)
+            f.write("Temps assis en secondes %d\n" % duree)
             f.close()
   
 
