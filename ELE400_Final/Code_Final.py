@@ -102,43 +102,52 @@ def get_data():
 
     while True:
         try:
-            #val = hx.read_long()
-            #if val > 3000000:
-            #   val = 1250000
+            
+            #On lit une valeur moyennée provenant du HX711
             val = hx.read_average()
-            print(val)
-            #if val < 0:
+            #print(val)
+            #On prend en note si l'utilisateur était assis ou non au dernier passage de la boucle
             keep = flag
             keep_charge = flag_charge
-            #    val = 1
+            
+            #Si le poids détecté est assez lourd, on détecte une personne
             if val > 1300000:
+                #On affiche sur les DELs qu'une personne est assise sur le banc
                 GPIO.output(18,GPIO.HIGH)#GPIO 18 pas pin 18 m8
                 GPIO.output(15,GPIO.LOW)
+                #On met la variable de détection à un
                 x = 1
                 flag = 1
+                #Si il n'y avait pas d'utilisateur assis au passage dans la boucle précédent on active le chronomètre
                 if keep == 0:
                     get_timex()
-                
+               
             else:
+                #Si il n'y a pas d'utilisateur assis, on l'affiche sur les DELs
                 GPIO.output(18,GPIO.LOW)#GPIO 18 pas pin 18 m8
                 GPIO.output(15,GPIO.HIGH)
+                #On met la variable de détection à zéro
                 x = 0
                 flag = 0
+                #Si il y avait un utilisateur assis au passage dans la boucle précédente on arrête le chronomètre
                 if keep == 1:
                     get_timex()
-                    
+               
+            #Si la charge inductive n'est pas active, on met la variable de charge à 0
             if GPIO.input(23):
                 
                 charge = 0
                 flag_charge = 0
-
+                
+            #Si la charge inductive est pas active, on met la variable de charge à 1
             else:
                 
                 charge = 1
                 flag_charge = 1
+                #S'il n'y avait pas de charge précédemment dans la dernière utilisation, on met la variable de recharge à 1
                 if keep_charge == 0:
                     recharge = 1
-            #print(val)
+            
             hx.power_down()
             hx.power_up()
             
@@ -170,8 +179,10 @@ def get_timex():
     global timex
     global duree
     
+    #Si on utilise la fonction lorsqu'une personne est assise, on enregistre le temps actuel
     if flag == 1:
         timex = time.time()
+    #Sinon, on soustrait le temps précédent au temps actuel pour obtenir le temps que l'utilisateur a passé sur le banc
     else:
         now = time.time()
         duree = int(now - timex)
