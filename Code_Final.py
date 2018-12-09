@@ -117,7 +117,7 @@ def get_data():
                 if (keep == 1):# si queiqu'un est en train de se lever
                     z=0
                     util = util+1 # nombre d'utilisateur + 1
-                    fichiertxt() # on update3 le fichier texte
+                    fichiertxt() # on update le fichier texte
                     #on redéfini les variables a 'UNDEF' au cas ou la personne ne répond pas à tout les questions
                     age = 'UNDEF'
                     gender = 'UNDEF'
